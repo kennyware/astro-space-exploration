@@ -1,7 +1,5 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import portraitTechImg from "../images/technology/image-launch-vehicle-portrait.jpg";
-import landscapeTechImg from "../images/technology/image-launch-vehicle-landscape.jpg";
 ---
 
 <Layout title="Technology" page="technology">
@@ -32,13 +30,16 @@ import landscapeTechImg from "../images/technology/image-launch-vehicle-landscap
         <picture>
           <source
             media="(max-width: 768px)"
-            srcset={landscapeTechImg}
+            srcset="/images/technology/image-launch-vehicle-landscape.jpg"
             id="tech-image-landscape"
           />
-          <source srcset={portraitTechImg} id="tech-image-portrait" />
+          <source
+            srcset="/images/technology/image-launch-vehicle-portrait.jpg"
+            id="tech-image-portrait"
+          />
           <img
             class="fluid-image"
-            src={portraitTechImg}
+            src="/images/technology/image-launch-vehicle-portrait.jpg"
             id="tech-image"
             alt="launch rocket"
           />
