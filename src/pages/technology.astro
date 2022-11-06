@@ -1,0 +1,223 @@
+---
+import Layout from "../layouts/Layout.astro";
+import portraitTechImg from "../images/technology/image-launch-vehicle-portrait.jpg";
+import landscapeTechImg from "../images/technology/image-launch-vehicle-landscape.jpg";
+---
+
+<Layout title="Technology" page="technology">
+  <div class="main">
+    <div class="container">
+      <h3 class="heading"><strong>03</strong> SPACE LAUNCH 101</h3>
+    </div>
+    <div class="container flex-container" id="tech-view">
+      <div class="space-tech">
+        <div class="tech-nav">
+          <div class="tech-nav-btn active" data-index="0">1</div>
+          <div class="tech-nav-btn" data-index="1">2</div>
+          <div class="tech-nav-btn" data-index="2">3</div>
+        </div>
+        <div id="tech-info">
+          <p>THE TERMINOLOGY...</p>
+          <h3 id="tech-name">LAUNCH VEHICLE</h3>
+          <p id="tech-description">
+            A launch vehicle or carrier rocket is a rocket-propelled vehicle
+            used to carry a payload from Earth's surface to space, usually to
+            Earth orbit or beyond. Our WEB-X carrier rocket is the most powerful
+            in operation. Standing 150 metres tall, it's quite an awe-inspiring
+            sight on the launch pad!
+          </p>
+        </div>
+      </div>
+      <div id="tech-display">
+        <picture>
+          <source
+            media="(max-width: 768px)"
+            srcset={landscapeTechImg}
+            id="tech-image-landscape"
+          />
+          <source srcset={portraitTechImg} id="tech-image-portrait" />
+          <img
+            class="fluid-image"
+            src={portraitTechImg}
+            id="tech-image"
+            alt="launch rocket"
+          />
+        </picture>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import { technology } from "../data.json";
+
+  const techName = document.getElementById("tech-name");
+  const techDescription = document.getElementById("tech-description");
+  const techImgLandscape = document.getElementById("tech-image-landscape");
+  const techImgPortrait = document.getElementById("tech-image-portrait");
+  const techImg = document.getElementById("tech-image");
+  const techNavBtns = document.querySelectorAll(".tech-nav-btn");
+
+  function handleTechNavClick(e) {
+    const index = +e.target.dataset.index;
+
+    techName.innerHTML = technology[index].name.toUpperCase();
+    techDescription.innerHTML = technology[index].description;
+    techImgLandscape.setAttribute("srcset", technology[index].images.landscape);
+    techImgPortrait.setAttribute("srcset", technology[index].images.portrait);
+
+    if (!e.target.classList.contains("active")) {
+      techNavBtns.forEach((btn) => {
+        if (btn.classList.contains("active")) btn.classList.remove("active");
+      });
+      e.target.classList.add("active");
+    }
+  }
+  techNavBtns.forEach((btn) => {
+    btn.addEventListener("click", handleTechNavClick);
+  });
+</script>
+
+<style>
+  .main {
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 180px;
+    background: url("../images/technology/background-technology-desktop.jpg")
+      no-repeat center;
+    background-size: cover;
+    padding-bottom: 200px;
+  }
+
+  .heading {
+    color: #fff;
+    font-size: 1.25em;
+    letter-spacing: 3px;
+    margin-bottom: 50px;
+  }
+
+  .heading strong {
+    opacity: 30%;
+    margin-right: 10px;
+  }
+
+  h3 {
+    color: #fff;
+    font-family: "Bellefair", sans-serif;
+    font-size: 2.5em;
+    font-weight: 400;
+    margin-bottom: 25px;
+  }
+
+  p {
+    color: #d0d6f9;
+  }
+
+  .space-tech {
+    width: 65%;
+    max-width: 500px;
+    display: flex;
+    margin-top: 100px;
+  }
+
+  #tech-display {
+    max-width: 400px;
+    width: 35%;
+    position: absolute;
+    right: 0;
+  }
+
+  .tech-nav {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    margin-right: 40px;
+  }
+
+  .tech-nav-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: "Bellefair", sans-serif;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+
+  .tech-nav-btn.active {
+    background: #fff;
+    color: #0b0d17;
+  }
+
+  .tech-nav-btn:hover {
+    border-color: #fff;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .main {
+      background-image: url("../images/technology/background-technology-tablet.jpg");
+      position: relative;
+    }
+
+    #tech-view {
+      align-items: center;
+      max-width: 100%;
+    }
+
+    .space-tech {
+      order: 2;
+      flex-direction: column;
+      width: 70%;
+      text-align: center;
+      align-items: center;
+    }
+
+    #tech-display {
+      order: 1;
+      max-width: 768px;
+      width: 100%;
+      position: static;
+    }
+
+    .tech-nav {
+      flex-direction: row;
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 50px;
+      margin-right: 0;
+    }
+
+    .tech-nav-btn {
+      margin: 0 15px;
+    }
+
+    #tech-info {
+      max-width: 300px;
+    }
+  }
+
+  @media (max-width: 426px) {
+    .main {
+      background-image: url("../images/technology/background-technology-mobile.jpg");
+      padding-bottom: 50px;
+      padding-top: 120px;
+    }
+
+    .heading {
+      text-align: center;
+    }
+
+    .space-tech {
+      width: 100%;
+    }
+
+    .tech-nav-btn {
+      margin: 0 10px;
+    }
+  }
+</style>

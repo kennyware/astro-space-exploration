@@ -1,0 +1,253 @@
+---
+import "../styles/global.css";
+
+export interface Props {
+  title: string;
+  page: string;
+}
+
+const { title, page } = Astro.props;
+
+import logo from "../images/shared/logo.svg";
+import hamburgerMenuBtn from "../images/shared/icon-hamburger.svg";
+import closeMenuBtn from "../images/shared/icon-close.svg";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo"><img src={logo} alt="logo" /></div>
+      <nav class="nav">
+        <div class="line"></div>
+        <ul>
+          <li class={`nav-item ${page === "home" && "active"}`}>
+            <a href="/" class="nav-link"><strong>00</strong> Home</a>
+          </li>
+          <li class={`nav-item ${page === "destination" && "active"}`}>
+            <a href="/destination" class="nav-link"
+              ><strong>01</strong> Destination</a
+            >
+          </li>
+          <li class={`nav-item ${page === "crew" && "active"}`}>
+            <a href="/crew" class="nav-link"><strong>02</strong> Crew</a>
+          </li>
+          <li class={`nav-item ${page === "technology" && "active"}`}>
+            <a href="/technology" class="nav-link"
+              ><strong>03</strong> Technology</a
+            >
+          </li>
+        </ul>
+      </nav>
+      <div id="menu-open">
+        <img src={hamburgerMenuBtn} />
+      </div>
+    </header>
+    <slot />
+    <div id="mobile-menu">
+      <div id="menu-close">
+        <img src={closeMenuBtn} alt="X Button" />
+      </div>
+      <nav id="mobile-nav">
+        <a href="/" class="mobile-nav-link">
+          <strong>00</strong>HOME
+        </a>
+        <a href="/destination" class="mobile-nav-link">
+          <strong>01</strong>DESTINATION
+        </a>
+        <a href="/crew" class="mobile-nav-link">
+          <strong>02</strong>CREW
+        </a>
+        <a href="/technology" class="mobile-nav-link">
+          <strong>03</strong>TECHNOLOGY
+        </a>
+      </nav>
+    </div>
+    <style>
+      .header {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 40px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        margin-left: 80px;
+      }
+
+      .nav {
+        padding-left: 80px;
+        padding-right: 160px;
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        position: relative;
+      }
+
+      .line {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.3);
+        right: 95%;
+        width: 55%;
+        height: 0.5px;
+      }
+
+      .nav ul {
+        list-style: none;
+        display: flex;
+      }
+
+      .nav-item {
+        margin: 0 15px;
+        padding: 20px 0;
+        border: transparent;
+        transition: all 0.2s ease;
+      }
+
+      .nav-item:hover {
+        cursor: pointer;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+      }
+
+      .nav-link {
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .nav-item.active {
+        text-transform: uppercase;
+        border-bottom: 2px solid #fff;
+      }
+
+      #menu-open {
+        display: none;
+        margin-right: 30px;
+      }
+
+      #mobile-menu {
+        position: fixed;
+        z-index: 101;
+        right: 0;
+        top: 0;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        padding: 25px;
+        width: 45%;
+        margin-right: -1000px;
+        overflow: hidden;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      #menu-close {
+        float: right;
+        margin-bottom: 25px;
+      }
+
+      #mobile-nav {
+        clear: right;
+        display: flex;
+        flex-direction: column;
+        padding-right: 50px;
+        margin-top: 25px;
+      }
+
+      .mobile-nav-link {
+        text-decoration: none;
+        color: #fff;
+        margin: 10px 0;
+        letter-spacing: 2px;
+      }
+
+      .mobile-nav-link strong {
+        margin-right: 10px;
+      }
+
+      @media (max-width: 1024px) {
+        .line {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header {
+          margin-top: 0;
+        }
+
+        .line {
+          display: none;
+        }
+
+        .nav {
+          padding-left: 20px;
+          padding-right: 50px;
+        }
+
+        .nav-item {
+          padding: 35px 0;
+        }
+
+        .nav strong {
+          display: none;
+        }
+      }
+
+      @media (max-width: 426px) {
+        .header {
+          margin-top: 25px;
+        }
+
+        .logo {
+          margin-left: 30px;
+        }
+
+        .nav {
+          display: none;
+        }
+
+        #mobile-menu.open {
+          visibility: visible;
+          margin-right: 0;
+        }
+
+        #menu-open {
+          display: block;
+        }
+      }
+    </style>
+
+    <script>
+      const mobileMenu = document.getElementById("mobile-menu");
+      function menuOpenClick() {
+        mobileMenu.classList.add("open");
+      }
+
+      function menuCloseClick() {
+        mobileMenu.classList.remove("open");
+      }
+
+      document
+        .getElementById("menu-open")
+        .addEventListener("click", menuOpenClick);
+      document
+        .getElementById("menu-close")
+        .addEventListener("click", menuCloseClick);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,243 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Destinations" page="destination">
+  <div class="main">
+    <div class="container">
+      <h3 class="heading"><strong>01</strong> PICK YOUR DESTINATION</h3>
+      <div class="flex-container">
+        <div id="destination-view">
+          <img
+            class="fluid-image"
+            id="destination-image"
+            src="./images/destination/image-moon.png"
+            alt="celestial object"
+          />
+        </div>
+        <div id="destination-pick">
+          <nav class="destination-nav">
+            <ul>
+              <li class="dest-nav-item active" data-index="0">MOON</li>
+              <li class="dest-nav-item" data-index="1">MARS</li>
+              <li class="dest-nav-item" data-index="2">EUROPA</li>
+              <li class="dest-nav-item" data-index="3">TITAN</li>
+            </ul>
+          </nav>
+          <h3 id="destination-name">MOON</h3>
+          <p id="destination-description">
+            See our planet as you’ve never seen it before. A perfect relaxing
+            trip away to help regain perspective and come back refreshed. While
+            you’re there, take in some history by visiting the Luna 2 and Apollo
+            11 landing sites.
+          </p>
+          <div id="destination-logistics">
+            <div class="dest-logistic-table">
+              <p class="label">AVG. DISTANCE</p>
+              <p id="destination-distance"><strong>384,000 KM</strong></p>
+            </div>
+            <div class="dest-logistic-table">
+              <p class="label">EST. TRAVEL TIME</p>
+              <p id="destination-eta"><strong>3 DAYS</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import { destinations } from "../data.json";
+
+  const destinationName = document.getElementById("destination-name");
+  const destinationImage = document.getElementById("destination-image");
+  const destinationDescription = document.getElementById(
+    "destination-description"
+  );
+  const destinationDistance = document.querySelector(
+    "#destination-distance strong"
+  );
+  const destinationTravel = document.querySelector("#destination-eta strong");
+
+  destinationName.innerHTML = destinations[0].name.toUpperCase();
+  destinationImage.setAttribute("src", destinations[0].images.png);
+  destinationDescription.innerHTML = destinations[0].description;
+  destinationDistance.innerHTML = destinations[0].distance.toUpperCase();
+  destinationTravel.innerHTML = destinations[0].travel.toUpperCase();
+
+  function handleNavItemClick(e) {
+    if (!e.target.classList.contains("active")) {
+      navItems.forEach((item) => {
+        if (item.classList.contains("active")) item.classList.remove("active");
+      });
+      e.target.classList.add("active");
+    }
+
+    const index = +e.target.dataset.index;
+
+    destinationName.innerHTML = destinations[index].name.toUpperCase();
+    destinationImage.setAttribute("src", destinations[index].images.png);
+    destinationDescription.innerHTML = destinations[index].description;
+    destinationDistance.innerHTML = destinations[index].distance.toUpperCase();
+    destinationTravel.innerHTML = destinations[index].travel.toUpperCase();
+  }
+
+  const navItems = document.querySelectorAll(".dest-nav-item");
+
+  navItems.forEach((item) => {
+    item.addEventListener("click", handleNavItemClick);
+  });
+</script>
+
+<style>
+  .main {
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 180px;
+    padding-bottom: 100px;
+    background: url("../images/destination/background-destination-desktop.jpg")
+      no-repeat center;
+    background-size: cover;
+    z-index: -1;
+  }
+
+  .flex-container {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .heading {
+    color: #fff;
+    font-size: 1.25em;
+    margin-bottom: 50px;
+    letter-spacing: 3px;
+  }
+
+  .heading strong {
+    opacity: 30%;
+    margin-right: 10px;
+  }
+
+  #destination-view {
+    margin-right: 100px;
+    width: 45%;
+    display: flex;
+    align-items: center;
+  }
+
+  #destination-pick {
+    width: 45%;
+  }
+
+  .destination-nav {
+    margin-bottom: 40px;
+  }
+
+  .destination-nav ul {
+    display: flex;
+    justify-content: center;
+  }
+
+  .dest-nav-item {
+    list-style: none;
+    display: inline-block;
+    color: #d0d6f9;
+    margin: 0 15px;
+    padding-bottom: 10px;
+    letter-spacing: 2px;
+  }
+
+  .dest-nav-item.active {
+    color: #fff;
+    border-bottom: 2px solid #fff;
+  }
+
+  .dest-nav-item:hover {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+  }
+
+  #destination-name {
+    font-family: "Bellefair", serif;
+    font-size: 6em;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  #destination-description {
+    color: #d0d6f9;
+    padding-bottom: 25px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #d0d6f9;
+    width: 100%;
+    font-size: 1.05em;
+    line-height: 30px;
+  }
+
+  #destination-logistics {
+    display: flex;
+  }
+
+  .dest-logistic-table:first-of-type {
+    margin-right: 50px;
+  }
+
+  .label {
+    color: #d0d6f9;
+    margin-bottom: 10px;
+    word-spacing: 2px;
+  }
+
+  .dest-logistic-table p strong {
+    font-size: 1.5em;
+    font-family: "Bellefair", serif;
+    font-weight: 400;
+    color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    .main {
+      background-image: url("../images/destination/background-destination-tablet.jpg");
+    }
+
+    #destination-view {
+      margin-right: auto;
+      margin-left: auto;
+      margin-bottom: 50px;
+      width: 70%;
+    }
+
+    #destination-pick {
+      width: 80%;
+      text-align: center;
+    }
+
+    #destination-name {
+      font-size: 4em;
+    }
+
+    #destination-logistics {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 426px) {
+    .main {
+      background-image: url("../images/destination/background-destination-mobile.jpg");
+      padding-top: 120px;
+    }
+
+    .heading {
+      text-align: center;
+    }
+
+    #destination-pick,
+    .flex-container {
+      width: 100%;
+    }
+  }
+</style>
